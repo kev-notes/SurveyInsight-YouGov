@@ -11,10 +11,9 @@ This tool is built using Python with Streamlit and Plotly, to extend the analysi
 
 ## Why a new tool?
 
-The visualization YouGov provides is for a single group of people only, as shown in the screenshot below. So we cannot compare more than one group of people with each other.
-Source: https://today.yougov.com/topics/politics/trackers/support-for-businesses-publishing-salary-ranges
+The visualization YouGov provides is for a single group of people only, as seen here: https://today.yougov.com/topics/politics/trackers/support-for-businesses-publishing-salary-ranges
 
-So, I needed a tool that compares more than group of people, in fact ANY number of groups of people, with each other.
+So I needed a tool that compares more than group of people, in fact ANY number of groups of people, with each other.
 I also wanted to create a set of better suited charts for this use case. That is where this comes to the scene! And the result?
 
 
