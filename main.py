@@ -126,28 +126,6 @@ response_colors = {resp: palette[i] for i, resp in enumerate(response_options)}
 for i, resp in enumerate(response_options):
     response_colors[resp] = palette[i % len(palette)]
 
-# # ---------------- Trend lines ----------------
-# st.subheader("Trend lines — Percent over time")
-# if filtered.empty:
-#     st.info("No data for selected filters.")
-# else:
-#     fig = go.Figure()
-#     for grp in selected_groups:
-#         grpdf = filtered[filtered["group"] == grp]
-#         for resp in selected_responses:
-#             series = grpdf[grpdf["response"] == resp].sort_values("date_parsed")
-#             if series.empty:
-#                 continue
-#             fig.add_trace(go.Scatter(
-#                 x=series["date_parsed"], y=series["p_percent"], mode="lines+markers",
-#                 name=f"{grp} — {resp}",
-#                 line=dict(color=response_colors.get(resp, "#444"), width=2.5),
-#                 marker=dict(size=5, symbol="circle"),
-#                 hovertemplate="%{x|%Y-%m-%d}<br>%{y:.1f}%<extra></extra>"
-#             ))
-#     fig.update_layout(**plotly_theme, yaxis_title="Percent (%)", height=480, hovermode="x unified")
-#     st.plotly_chart(fig, use_container_width=True)
-
 # ---------------- Survey distribution (Animated) ----------------
 st.markdown("---")
 st.subheader("Survey distribution — Animated across dates")
@@ -186,13 +164,6 @@ else:
     fig3.update_layout(
         **plotly_theme,
         barmode="stack", xaxis_title="Percent (%)", height=480,
-        updatemenus=[{
-            "type": "buttons",
-            "buttons": [
-                {"label": "Play", "method": "animate", "args": [None, {"frame": {"duration": 1200, "redraw": True}, "fromcurrent": True}]},
-                {"label": "Pause", "method": "animate", "args": [[None], {"frame": {"duration": 0, "redraw": False}, "mode": "immediate"}]}
-            ]
-        }],
         sliders=[{
             "steps": [
                 {"label": str(d.date()), "method": "animate", "args": [[str(d.date())], {"mode": "immediate", "frame": {"duration": 600, "redraw": True}}]} 
@@ -211,22 +182,54 @@ if filtered.empty:
 else:
     fig_range = go.Figure()
     for grp in selected_groups:
-        grpdf = filtered[filtered["group"]==grp]
+        grpdf = filtered[filtered["group"] == grp]
         for resp in selected_responses:
-            series = grpdf[grpdf["response"]==resp]
-            if series.empty: continue
-            min_val, max_val = series["p_percent"].min(), series["p_percent"].max()
-            mean_val = series["p_percent"].mean()
+            series = grpdf[grpdf["response"] == resp]
+            if series.empty:
+                continue
+            # sort by date
+            series_sorted = series.sort_values("date_parsed")
+            start_val = series_sorted["p_percent"].iloc[0]   # earliest date
+            start_date = series_sorted["date_parsed"].iloc[0].strftime("%Y-%m-%d")
+            end_val = series_sorted["p_percent"].iloc[-1]    # latest date
+            end_date = series_sorted["date_parsed"].iloc[-1].strftime("%Y-%m-%d")
+            mean_val = series_sorted["p_percent"].mean()
+
+            # Dumbbell line with hover showing full dates
             fig_range.add_trace(go.Scatter(
-                x=[min_val,max_val], y=[grp,grp], mode="lines+markers",
+                x=[start_val, end_val], y=[grp, grp],
+                mode="lines+markers",
                 line=dict(width=5,color=response_colors.get(resp,"#444")),
                 marker=dict(size=9,color=response_colors.get(resp,"#444")),
                 name=resp,
-                hovertemplate=f"{grp} — {resp}<br>Min: {min_val:.1f}%<br>Max: {max_val:.1f}%<br>Mean: {mean_val:.1f}%<extra></extra>",
+                hovertemplate=f"{grp} — {resp}<br>{start_date}: {start_val:.1f}%<br>{end_date}: {end_val:.1f}%<br>Mean: {mean_val:.1f}%<extra></extra>",
                 showlegend=(grp==selected_groups[0])
             ))
-    fig_range.update_layout(**plotly_theme, xaxis_title="Percent (%)", yaxis_title="Group", height=480, hovermode="closest")
+
+            # Arrow from earliest to latest date (no text)
+            fig_range.add_annotation(
+                x=end_val, y=grp,
+                ax=start_val, ay=grp,
+                xref="x", yref="y",
+                axref="x", ayref="y",
+                text="",  # no label
+                showarrow=True,
+                arrowhead=3,
+                arrowsize=1,
+                arrowwidth=2,
+                arrowcolor=response_colors.get(resp,"#444"),
+                yshift=0
+            )
+
+    fig_range.update_layout(
+        **plotly_theme,
+        xaxis_title="Percent (%)",
+        yaxis_title="Group",
+        height=480,
+        hovermode="closest"
+    )
     st.plotly_chart(fig_range, use_container_width=True)
+
 
 # ---------------- Data preview ----------------
 st.markdown("---")
