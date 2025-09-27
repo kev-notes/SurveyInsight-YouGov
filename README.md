@@ -5,15 +5,15 @@
 
 ➜ You can use any dataset from YouGov, as long as it is in the same format as the provided example.
 
-#### Dashboard:
+### Dashboard:
 
 <img width="1920" height="1010" alt="image" src="https://github.com/user-attachments/assets/9e6c1678-100a-448c-a855-631c6f9fc5e3" />
 
-#### Visualization-1:
+### Visualization-1:
 
 <img width="1299" height="849" alt="image" src="https://github.com/user-attachments/assets/868ab297-bc8f-4cf3-a8ac-a04e9277f881" />
 
-#### Visualization-2:
+### Visualization-2:
 
 <img width="1336" height="844" alt="image" src="https://github.com/user-attachments/assets/899ee2f9-1120-4487-8879-0ff071908302" />
 
