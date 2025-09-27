@@ -3,7 +3,7 @@ This tool is built using Python with Streamlit and Plotly, to extend the analysi
 
 #### Dashboard:
 
-
+<img width="1920" height="1010" alt="image" src="https://github.com/user-attachments/assets/9e6c1678-100a-448c-a855-631c6f9fc5e3" />
 
 #### Visualization-1:
 
