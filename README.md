@@ -1,6 +1,10 @@
 # SurveyInsight-YouGov
 This tool is built using Python with Streamlit and Plotly, to extend the analysis of YouGov survey datasets, in a better way.
 
+#### Dashboard:
+
+
+
 #### Visualization-1:
 
 <img width="1299" height="849" alt="image" src="https://github.com/user-attachments/assets/868ab297-bc8f-4cf3-a8ac-a04e9277f881" />
