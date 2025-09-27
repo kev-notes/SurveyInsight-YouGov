@@ -1,6 +1,8 @@
 # SurveyInsight-YouGov
 ➜ This tool is built using Python with Streamlit and Plotly, to extend the analysis of YouGov survey datasets, in a better way.
+
 ➜ You can choose ANY number of the groups of people for comparison and analysis and for any given date range. You can configure the responses you'd like to view.
+
 ➜ You can use any dataset from YouGov, as long as it is in the same format as the provided example.
 
 #### Dashboard:
