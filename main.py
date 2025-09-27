@@ -72,7 +72,7 @@ def load_and_clean(uploaded_file=None, default_path="publishing-salaries.xlsx"):
     return {"tidy": combined, "sheets": sheets, "responses": response_options}
 
 # ---------------- Sidebar Global Filters ----------------
-uploaded = st.sidebar.file_uploader("Upload Excel (optional)", type=["xlsx", "xls"])
+uploaded = st.sidebar.file_uploader("Upload YouGov Excel file", type=["xlsx", "xls"])
 data = load_and_clean(uploaded_file=uploaded)
 sheets = data["sheets"]
 response_options = data["responses"]
@@ -249,3 +249,4 @@ to_download = display_df.copy() if not filtered.empty else pd.DataFrame()
 to_download.to_csv(csv_buf,index=False)
 st.download_button("Download CSV", data=csv_buf.getvalue(), file_name="yougov_filtered.csv", mime="text/csv")
 st.caption("Tip: upload a different Excel file with the same crosstab layout to analyze other policies or questions.")
+
